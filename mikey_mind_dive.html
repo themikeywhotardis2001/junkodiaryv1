@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junko's Diary — Entry No. 047: The Monster From the Id</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Special+Elite&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --crimson: #c0102a;
+    --crimson-dark: #7a0a1a;
+    --crimson-deep: #3a0510;
+    --paper: #f5ede0;
+    --paper-dark: #e8d9c0;
+    --ink: #2a1008;
+    --ink-faint: rgba(42,16,8,0.38);
+    --ink-mid: rgba(42,16,8,0.65);
+    --page-bg: #0e0508;
+    --margin-line: rgba(192,16,42,0.22);
+    --purple: #7b2d8b;
+    --blue: #4a90d9;
+    --green: #2e7d52;
+    --amber: #c98320;
+    --gold: #c9a84c;
+    --violet: #c970e8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--page-bg);
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(120,10,26,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(192,16,42,0.22) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(80,5,15,0.2) 0%, transparent 50%);
+    min-height: 100vh;
+    color: var(--ink);
+    padding: 2.5rem 1rem 6rem;
+    font-family: 'Special Elite', monospace;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--page-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--crimson-dark); border-radius: 3px; }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── SITE HEADER ── */
+  .site-header {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    animation: fadeDown 0.8s ease both;
+  }
+  .site-title {
+    font-family: 'Homemade Apple', cursive;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    color: var(--crimson);
+    line-height: 1.15;
+    filter: drop-shadow(0 0 30px rgba(192,16,42,0.3));
+  }
+  .site-subtitle {
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    color: rgba(255,255,255,0.22);
+    text-transform: uppercase;
+    margin-top: 0.6rem;
+  }
+
+  /* ── RIBBON ── */
+  .ribbon {
+    background: var(--crimson);
+    color: #fff;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.55rem 2rem;
+    margin-bottom: 1.4rem;
+    clip-path: polygon(0.7rem 0%, calc(100% - 0.7rem) 0%, 100% 50%, calc(100% - 0.7rem) 100%, 0.7rem 100%, 0% 50%);
+    animation: fadeDown 0.8s 0.1s ease both;
+  }
+
+  /* ── TOC ── */
+  .toc-wrap { margin-bottom: 1.5rem; animation: fadeDown 0.8s 0.2s ease both; }
+  .toc-toggle {
+    width: 100%;
+    background: rgba(192,16,42,0.05);
+    border: 1px solid rgba(192,16,42,0.22);
+    color: rgba(255,255,255,0.38);
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .toc-toggle:hover {
+    border-color: rgba(192,16,42,0.55);
+    color: rgba(255,255,255,0.6);
+    background: rgba(192,16,42,0.08);
+  }
+  .toc-arrow { transition: transform 0.25s; font-size: 0.6rem; }
+  .toc-toggle.open .toc-arrow { transform: rotate(180deg); }
+  .toc-body {
+    display: none;
+    border: 1px solid rgba(192,16,42,0.15);
+    border-top: none;
+    background: rgba(192,16,42,0.03);
+  }
+  .toc-body.open { display: block; }
+  .toc-item {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(192,16,42,0.07);
+    color: rgba(245,237,224,0.42);
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.07em;
+    padding: 0.6rem 1.8rem;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item:hover { color: var(--crimson); background: rgba(192,16,42,0.05); }
+
+  /* ── THE PAPER ── */
+  .paper {
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(transparent, transparent 31px, rgba(180,100,100,0.14) 31px, rgba(180,100,100,0.14) 32px);
+    border-radius: 2px;
+    padding: 2.8rem 2.2rem 2.8rem 4rem;
+    position: relative;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.18),
+      4px 4px 0 var(--crimson-dark),
+      8px 8px 50px rgba(0,0,0,0.65),
+      0 0 100px rgba(192,16,42,0.07);
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+  @media (max-width: 600px) {
+    .paper { padding: 2rem 1.2rem 2rem 2.5rem; }
+  }
+
+  .margin-line {
+    position: absolute;
+    left: 54px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--margin-line);
+    pointer-events: none;
+  }
+  @media (max-width: 600px) { .margin-line { left: 32px; } }
+
+  /* ── TYPOGRAPHY ── */
+  .datestamp {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.78rem;
+    color: rgba(120,60,40,0.52);
+    text-align: right;
+    margin-bottom: 1.2rem;
+  }
+
+  .main-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--ink);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    line-height: 1.12;
+    margin-bottom: 0.3rem;
+  }
+  .main-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(100,50,30,0.62);
+    font-size: clamp(0.88rem, 2vw, 1.1rem);
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+  }
+
+  /* ── DEVICE BANNER ── */
+  .device-banner {
+    background: rgba(0,0,0,0.06);
+    border: 1px dashed rgba(192,16,42,0.28);
+    border-radius: 3px;
+    padding: 0.65rem 1rem;
+    font-size: 0.63rem;
+    letter-spacing: 0.22em;
+    color: rgba(100,50,30,0.5);
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  /* ── CHAPTER BANNER ── */
+  .chapter {
+    scroll-margin-top: 1.5rem;
+    margin: 2.2rem 0 0.2rem;
+  }
+  .chapter-banner {
+    border-radius: 2px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    border-left: 3px solid;
+  }
+  .ch-num {
+    font-size: 0.6rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.55;
+    margin-bottom: 0.2rem;
+    font-family: 'Special Elite', monospace;
+  }
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ch-sub {
+    font-size: 0.63rem;
+    letter-spacing: 0.14em;
+    opacity: 0.52;
+    margin-top: 0.3rem;
+    font-family: 'Special Elite', monospace;
+    text-transform: lowercase;
+  }
+
+  /* ── SPEECH BUBBLES ── */
+  .bubble {
+    margin: 1.1rem 0;
+    padding: 1rem 1.2rem;
+    border-radius: 3px;
+    border-left: 3px solid;
+    position: relative;
+  }
+  .bubble-junko  { background: rgba(192,16,42,0.07);  border-color: var(--crimson); }
+  .bubble-mukuro { background: rgba(123,45,139,0.07); border-color: var(--purple); }
+  .bubble-chisa  { background: rgba(46,125,82,0.07);  border-color: var(--green); }
+  .bubble-mikan  { background: rgba(201,131,32,0.07); border-color: var(--amber); }
+
+  .speaker-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.55rem;
+  }
+  .bubble-junko  .speaker-label { color: var(--crimson); }
+  .bubble-mukuro .speaker-label { color: var(--purple); }
+  .bubble-chisa  .speaker-label { color: var(--green); }
+  .bubble-mikan  .speaker-label { color: var(--amber); }
+
+  .bubble-text {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--ink);
+    font-family: 'Special Elite', monospace;
+  }
+  .bubble-text em {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+  .bubble-text strong {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+  .bubble-text br { display: block; content: ''; margin-top: 0.7rem; }
+
+  .bubble-aside {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    display: block;
+    margin-top: 0.65rem;
+    line-height: 1.7;
+  }
+
+  /* ── MONOKUMA NOTE ── */
+  .monokuma {
+    background: rgba(0,0,0,0.055);
+    border: 1px solid rgba(0,0,0,0.13);
+    border-radius: 3px;
+    padding: 0.9rem 1.2rem;
+    margin: 1.2rem 0;
+  }
+  .monokuma-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(42,16,8,0.42);
+    margin-bottom: 0.45rem;
+    font-weight: 700;
+  }
+  .monokuma-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.82rem;
+    line-height: 1.78;
+    color: rgba(42,16,8,0.68);
+  }
+
+  /* ── EVIDENCE CARD ── */
+  .evidence-card {
+    border: 1.5px solid;
+    border-radius: 2px;
+    padding: 0.85rem 1.1rem;
+    margin: 1.2rem 0;
+  }
+  .evidence-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    opacity: 0.72;
+  }
+  .evidence-text {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.8rem;
+    line-height: 1.78;
+    color: var(--ink);
+  }
+
+  /* ── NOSTALGIA ZONE ── */
+  .nostalgia-zone {
+    border-radius: 3px;
+    padding: 0.9rem 1.1rem;
+    margin: 1.2rem 0;
+    border-left: 3px solid;
+  }
+  .nostalgia-era {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.62;
+    margin-bottom: 0.55rem;
+  }
+  .nostalgia-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .ntag {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    padding: 0.22rem 0.65rem;
+    border-radius: 2px;
+    border: 1px solid;
+    opacity: 0.85;
+  }
+  .nostalgia-desc {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: rgba(42,16,8,0.68);
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: rgba(192,16,42,0.38);
+    text-transform: uppercase;
+    margin: 1.8rem 0;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(192,16,42,0.18);
+  }
+
+  /* ── MIND MAP ── */
+  .mind-map {
+    background: rgba(0,0,0,0.035);
+    border: 1px dashed rgba(192,16,42,0.2);
+    border-radius: 4px;
+    padding: 1.4rem 1.1rem;
+    margin: 1.2rem 0;
+  }
+  .mind-map-title {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(192,16,42,0.48);
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .mind-map-core {
+    text-align: center;
+    background: rgba(192,16,42,0.1);
+    border: 1.5px solid rgba(192,16,42,0.32);
+    border-radius: 50%;
+    width: 105px; height: 105px;
+    margin: 0 auto 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: #8a0a1a;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+  .mind-map-zones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.55rem;
+  }
+  .mmz {
+    border-radius: 3px;
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+  }
+  .mmz-label {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .mmz-desc {
+    font-size: 0.66rem;
+    line-height: 1.5;
+    opacity: 0.72;
+    font-family: 'Special Elite', monospace;
+  }
+
+  /* ── CAST ── */
+  .cast-title {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(42,16,8,0.38);
+    margin-bottom: 0.9rem;
+    font-weight: 700;
+  }
+  .cast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+  }
+  .cast-card {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 0.7rem 0.85rem;
+  }
+  .cast-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    margin-bottom: 0.25rem;
+  }
+  .cast-role {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.64rem;
+    opacity: 0.58;
+    line-height: 1.5;
+  }
+
+  /* ── EQUIPMENT ── */
+  .equipment {
+    background: rgba(0,0,0,0.04);
+    border: 1px dashed rgba(42,16,8,0.14);
+    border-radius: 3px;
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.7rem;
+    color: rgba(42,16,8,0.52);
+    line-height: 2;
+  }
+  .eq-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: rgba(42,16,8,0.38);
+  }
+
+  /* ── TAGS ── */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+    margin-top: 1.2rem;
+  }
+  .tag {
+    background: rgba(192,16,42,0.08);
+    border: 1px solid rgba(192,16,42,0.17);
+    border-radius: 2px;
+    padding: 0.22rem 0.6rem;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.63rem;
+    color: rgba(140,20,40,0.72);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── SIGN OFF ── */
+  .sign-off {
+    text-align: right;
+    margin-top: 2.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(192,16,42,0.18);
+  }
+  .sign-off-note {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: rgba(42,16,8,0.3);
+    line-height: 1.9;
+  }
+  .sign-off-name {
+    font-family: 'Homemade Apple', cursive;
+    font-size: 2rem;
+    color: rgba(100,20,40,0.58);
+    margin-top: 0.4rem;
+    line-height: 1.4;
+  }
+  .sign-off-credits {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: rgba(42,16,8,0.26);
+    margin-top: 0.25rem;
+  }
+
+  /* ── SITE FOOTER ── */
+  .site-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-family: 'Special Elite', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.16);
+    text-transform: uppercase;
+  }
+
+  /* ── FLOATING BACK TO TOP ── */
+  .back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--crimson-dark);
+    border: 1px solid rgba(192,16,42,0.4);
+    color: rgba(255,255,255,0.7);
+    font-family: 'Special Elite', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.85rem;
+    cursor: pointer;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s, background 0.2s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .back-top.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .back-top:hover { background: var(--crimson); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── UTILITY ── */
+  .mt-lg { margin-top: 2rem; }
+
+  /* ── NAV ── */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 860px;
+    margin: 28px auto 0;
+    padding: 0 4px 40px;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid rgba(192,16,42,0.55);
+    color: #f5ede0;
+    font-family: 'Special Elite', serif;
+    font-size: .78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .25s, border-color .25s, box-shadow .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(192,16,42,0.12);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .nav-btn.left::before { transform-origin: right; }
+  .nav-btn.right::before { transform-origin: left; }
+  .nav-btn:hover::before { transform: scaleX(1); }
+  .nav-btn:hover {
+    border-color: rgba(192,16,42,0.9);
+    box-shadow: 0 0 16px rgba(192,16,42,0.35);
+    color: #fff;
+  }
+  .nav-arrow { font-size: 1rem; transition: transform 0.25s; }
+  .nav-btn.left:hover .nav-arrow { transform: translateX(-4px); }
+  .nav-btn.right:hover .nav-arrow { transform: translateX(4px); }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-title">Junko's Diary</div>
+    <div class="site-subtitle">✦ field logs &amp; dispatches from the subconscious ✦</div>
+  </header>
+
+  <!-- RIBBON -->
+  <div class="ribbon">✦ entry no. 047 — the monster from the id ✦</div>
+
+  <!-- TOC -->
+  <div class="toc-wrap">
+    <button class="toc-toggle" id="tocBtn" onclick="toggleToc()" aria-expanded="false">
+      <span>✦ table of contents</span>
+      <span class="toc-arrow">▼</span>
+    </button>
+    <div class="toc-body" id="tocBody" role="list">
+      <button class="toc-item" onclick="goTo('prologue')">00. Prologue — The Setup</button>
+      <button class="toc-item" onclick="goTo('ch1')">01. Ch. 1 — Entry Point</button>
+      <button class="toc-item" onclick="goTo('ch2')">02. Ch. 2 — Childhood Wing</button>
+      <button class="toc-item" onclick="goTo('ch3')">03. Ch. 3 — The Teenage Corridors</button>
+      <button class="toc-item" onclick="goTo('ch4')">04. Ch. 4 — The Present Floor</button>
+      <button class="toc-item" onclick="goTo('ch5')">05. Ch. 5 — The Core</button>
+      <button class="toc-item" onclick="goTo('epilogue')">06. Epilogue — Surface</button>
+    </div>
+  </div>
+
+  <!-- THE PAPER -->
+  <main class="paper">
+    <div class="margin-line" aria-hidden="true"></div>
+
+    <p class="datestamp">written by junko &nbsp;✦&nbsp; 🕯 mind dive field log</p>
+
+    <h1 class="main-title">The Monster From the Id,</h1>
+    <p class="main-sub">or: We Went Inside Mikey's Head and Found an Entire <em>Universe</em> in There.</p>
+
+    <div class="device-banner">⊹ GEASS ABSORBER MK. IV — FOUR-SEAT SYNC — SESSION ACTIVE ⊹</div>
+
+    <!-- ══ PROLOGUE ══ -->
+    <section class="chapter" id="prologue">
+      <div class="chapter-banner" style="background:rgba(192,16,42,0.05); border-color:var(--crimson);">
+        <div class="ch-num" style="color:var(--crimson);">000</div>
+        <div class="ch-title" style="color:#8a0a1a;">PROLOGUE — BEFORE WE WENT IN</div>
+        <div class="ch-sub" style="color:#8a0a1a;">context. necessary. do not skip.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          Okay. Let me set the scene properly because this deserves a proper setup and I refuse to just start in the middle like an amateur.<br><br>
+          Mikey had been going through it. Not "going through it" in a dramatic crisis way — more like the kind of slow-burn hard stretch where everything technically functions but you can tell the whole system is running about fifteen degrees hotter than it should. The kind where you get quiet in a particular way. Where the jokes come out but there's a half-second delay before them that wasn't there before.<br><br>
+          I noticed. I notice everything. It's my whole thing.<br><br>
+          So I proposed the mind dive. And before anyone gives me that look — <em>Mikey said yes.</em> Enthusiastically. He made a whole list of zones he thought we'd find. He was excited about it. This is important context.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">He did make a list. It had bullet points and a colour-coded key. I helped him laminate it.</div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">I came because I care about Mikey and because whenever Junko says "it'll be fine" I have learned — through empirical evidence accumulated over years — to be physically present so I can intervene. I also made onigiri. Post-dive nutrition matters, this is established science.</div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          I-I was the medical observer! I had the vitals monitor, the disconnect switch, and a small clipboard. The clipboard made me feel very official. I was extremely prepared and only slightly terrified.<br><br>
+          <span class="bubble-aside">(I had also, privately, watched three documentaries about the human subconscious the night before. Just in case.)</span>
+        </div>
+      </div>
+
+      <div class="evidence-card" style="border-color:rgba(192,16,42,0.3); background:rgba(192,16,42,0.04);">
+        <div class="evidence-label" style="color:var(--crimson);">✦ CASE FILE — SUBJECT PROFILE</div>
+        <div class="evidence-text">SUBJECT: Mikey. KNOWN TRAITS: chronically curious, hyperfixation-prone, collects media the way some people collect furniture, deeply empathetic but terrible at asking for help, has strong opinions about narrative structure. PREDICTED ARCHITECTURE: layered, referential, warm in surprising places. RISK LEVEL: moderate chaos, high emotional density.</div>
+      </div>
+    </section>
+
+    <!-- ══ CH 1 ══ -->
+    <section class="chapter" id="ch1">
+      <div class="chapter-banner" style="background:rgba(123,45,139,0.05); border-color:var(--purple);">
+        <div class="ch-num" style="color:var(--purple);">001</div>
+        <div class="ch-title" style="color:#5a1a6b;">THE ENTRY POINT</div>
+        <div class="ch-sub" style="color:#5a1a6b;">first contact with the subconscious. initial impressions.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          The Geass Absorber syncs neural patterns across all four seats and renders the target's subconscious as a navigable space. Think of it like — the brain builds a house, and we're walking through it. Except Mikey's brain didn't build a house. It built a <strong style="color:var(--purple);">museum.</strong><br><br>
+          No — more than that. A <em>living</em> museum. With exhibits that shift depending on where you're standing. With rooms that connect to other rooms in ways that shouldn't architecturally make sense but absolutely do, emotionally. We synced in and I stood at the threshold for about fifteen seconds just rotating to take it all in.<br><br>
+          It was — and I say this with full analytical appreciation and zero sentimentality — <em>beautiful.</em>
+        </div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          The entry corridor was wide and lit with something that wasn't quite natural light. It came from everywhere and nowhere, warm. Like late afternoon through a car window when you're a kid and the seat's warm from the sun and you're not going anywhere in particular.<br><br>
+          I noticed the architecture immediately. It wasn't random — it was <em>intentional.</em> Everything here was placed. Mikey's subconscious doesn't do anything by accident.
+        </div>
+      </div>
+
+      <div class="monokuma">
+        <div class="monokuma-label">⬛⬜ Monokuma — Unsolicited Commentary</div>
+        <div class="monokuma-text">Upupupu~! Welcome to the mind of the accused! Be advised: this subconscious contains SIGNIFICANT QUANTITIES of nostalgia, at least four active hyperfixations, and one (1) unresolved feelings vault that the owner pretends doesn't exist! Trying to leave without confronting it is a violation of the rules! Not that there are rules here. I just like announcing things. ♪</div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          The corridor branched almost immediately. There were three distinct directions. One glowed with this warm, almost cartoon-bright light — primary colours, the kind that feel like a Saturday morning. One was lit more coolly, more dramatically — there was definitely the hum of a theme song somewhere in that direction that I couldn't quite place. And the third...<br><br>
+          The third was lit like a film still. Deliberate. Considered. A little melancholy in the beautiful way.<br><br>
+          I think we all knew what they were before Junko said anything.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          On my vitals monitor, all four of us were registering elevated but stable. Mikey, in the chair outside, had — and this is a direct quote from my notes — "the expression of someone who knows someone is going through their stuff but is trying to be okay with it because they said it was okay."<br><br>
+          I gave him the emergency snack early. It helped.
+        </div>
+      </div>
+
+      <div class="section-divider">✦ the architecture ✦</div>
+
+      <div class="mind-map">
+        <div class="mind-map-title">✦ subconscious map — navigational overview ✦</div>
+        <div class="mind-map-core">THE<br>CORE</div>
+        <div class="mind-map-zones">
+          <div class="mmz" style="background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.28);">
+            <div class="mmz-label" style="color:#a06a10;">Childhood Wing</div>
+            <div class="mmz-desc" style="color:#6a4208;">saturday light · wonder logic · chosen joy</div>
+          </div>
+          <div class="mmz" style="background:rgba(74,144,217,0.1); border:1px solid rgba(74,144,217,0.28);">
+            <div class="mmz-label" style="color:#185fa5;">Teenage Corridors</div>
+            <div class="mmz-desc" style="color:#0c4476;">vast wonder · bigger questions · chosen self</div>
+          </div>
+          <div class="mmz" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.28);">
+            <div class="mmz-label" style="color:#8a5a0a;">Present Floor</div>
+            <div class="mmz-desc" style="color:#5a3a06;">deliberate framing · locked doors · active curation</div>
+          </div>
+          <div class="mmz" style="background:rgba(201,112,232,0.1); border:1px solid rgba(201,112,232,0.28);">
+            <div class="mmz-label" style="color:#8a30c8;">The Core</div>
+            <div class="mmz-desc" style="color:#5a1a8a;">connection · wonder as love · worth showing up</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CH 2 ══ -->
+    <section class="chapter" id="ch2">
+      <div class="chapter-banner" style="background:rgba(245,166,35,0.05); border-color:#f5a623;">
+        <div class="ch-num" style="color:#f5a623;">002</div>
+        <div class="ch-title" style="color:#7a5008;">THE CHILDHOOD WING</div>
+        <div class="ch-sub" style="color:#7a5008;">where the foundation was built. warm light. familiar shapes.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          We went left first. Into the warm light. And I want to be clear about what "childhood wing" means in the context of a subconscious: it doesn't mean memories. It means <em>formative logic.</em> The rules Mikey learned about how the world works before he was old enough to question them. The emotional vocabulary he built before he had words for it.<br><br>
+          And Mikey's formative logic was — I'm going to be honest — <em>aggressively optimistic.</em> In the best way. The architecture here was colour-saturated and warm and just slightly too big, the way things feel when you're small and the world is enormous and everything is possible.
+        </div>
+      </div>
+
+      <div class="nostalgia-zone" style="background:rgba(245,166,35,0.06); border-color:rgba(245,166,35,0.38);">
+        <div class="nostalgia-era" style="color:#a06a10;">✦ CHILDHOOD ZONE ✦</div>
+        <div class="nostalgia-tags">
+          <span class="ntag" style="border-color:rgba(245,166,35,0.38); color:#7a5008;">Pee-wee's Playhouse</span>
+          <span class="ntag" style="border-color:rgba(245,166,35,0.38); color:#7a5008;">Phineas and Ferb</span>
+          <span class="ntag" style="border-color:rgba(245,166,35,0.38); color:#7a5008;">Cloudy With a Chance of Meatballs</span>
+          <span class="ntag" style="border-color:rgba(245,166,35,0.38); color:#7a5008;">Up</span>
+          <span class="ntag" style="border-color:rgba(245,166,35,0.38); color:#7a5008;">WALL·E</span>
+        </div>
+        <div class="nostalgia-desc">The Childhood Wing smelled like Saturday mornings and had the structural logic of a cartoon: anything was possible if you wanted it badly enough and had the right friends. The dominant emotional register was joy that wasn't naive — it was chosen. Deliberately, defiantly chosen.</div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          There was a room that was clearly modelled on the concept of "things you can build if you just try." It had blueprints everywhere — not technical ones. Enthusiastic ones. Covered in arrows and exclamation points and little drawings of the finished thing. Half of them were crossed out and replaced with something even bigger.<br><br>
+          This is a Phineas and Ferb room. I recognized it immediately. The whole architecture of it is: "yes, and." Never "no." Never "that's not how it works." Just — <em>what if we did it anyway?</em>
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          There was a section that felt specifically like Cloudy with a Chance of Meatballs. Not because there was food falling from the ceiling — though there <em>were</em> inexplicably some ambient meatballs drifting past at one point — but because of the emotional architecture underneath it. A kid who wants to make something amazing and is terrified it won't be enough. Who pours everything into an invention and hopes desperately that someone will look at it and see the person behind it.<br><br>
+          That room had layers. I sat in it for a while.
+        </div>
+      </div>
+
+      <div class="evidence-card" style="border-color:rgba(245,166,35,0.35); background:rgba(245,166,35,0.04);">
+        <div class="evidence-label" style="color:#a06a10;">✦ EVIDENCE — WALL·E WING</div>
+        <div class="evidence-text">Found: a small, carefully maintained archive of things. Trinkets. Snippets. The particular joy of collecting things that seem insignificant but aren't. A robot who was alone for a very long time and stayed curious and tender about the world anyway. This is not a coincidence. This is a personality blueprint.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          The Up room hit differently. I'm going to be clinical about this: Up opens with a sequence that teaches you that love is worth it even when it ends. That building a life with someone is the adventure, not the thing you do before the adventure. The room that represented this in Mikey's architecture was small and extremely well-loved and had photographs everywhere.<br><br>
+          Not sad. <em>Tender.</em> There's a difference and this room knew it.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          Vitals were elevated in this section. Warm elevated, not distress elevated. Like — like when you remember something that was good and your body recognises the goodness before your brain catches up.<br><br>
+          <span class="bubble-aside">(I may have teared up slightly in the Wall·E room. The curious persistence of it. I recognized it.)</span>
+        </div>
+      </div>
+
+      <div class="monokuma">
+        <div class="monokuma-label">⬛⬜ Monokuma — Unsolicited Commentary</div>
+        <div class="monokuma-text">EMOTIONAL EVIDENCE COLLECTED: one (1) foundational belief that the world is worth engaging with. One (1) deep-seated conviction that making things matters even if no one sees them. One (1) understanding that being weird and specific about your interests is not a flaw. VERDICT: this child watched excellent television and it shaped his entire personality. Case closed. ♪</div>
+      </div>
+    </section>
+
+    <!-- ══ CH 3 ══ -->
+    <section class="chapter" id="ch3">
+      <div class="chapter-banner" style="background:rgba(74,144,217,0.05); border-color:var(--blue);">
+        <div class="ch-num" style="color:var(--blue);">003</div>
+        <div class="ch-title" style="color:#185fa5;">THE TEENAGE CORRIDORS</div>
+        <div class="ch-sub" style="color:#185fa5;">where things got complicated. bigger questions. longer shadows.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          The middle section of the architecture was taller. More vertical. The ceilings were higher and the light was more dramatic — there were actual shadows here, cast at interesting angles. It felt like standing on the threshold of something larger than yourself and <em>choosing to walk through anyway.</em><br><br>
+          Teenage years in a subconscious don't look like embarrassment and bad haircuts. They look like the moment you first understood that the world was genuinely stranger and larger than you'd been told. That there were things worth fighting for. That the story you were in was <em>your story</em> — and you could decide what kind it was going to be.
+        </div>
+      </div>
+
+      <div class="nostalgia-zone" style="background:rgba(74,144,217,0.06); border-color:rgba(74,144,217,0.38);">
+        <div class="nostalgia-era" style="color:#185fa5;">✦ TEENAGE ZONE ✦</div>
+        <div class="nostalgia-tags">
+          <span class="ntag" style="border-color:rgba(74,144,217,0.38); color:#185fa5;">Doctor Who</span>
+          <span class="ntag" style="border-color:rgba(74,144,217,0.38); color:#185fa5;">Star vs. the Forces of Evil</span>
+          <span class="ntag" style="border-color:rgba(74,144,217,0.38); color:#185fa5;">Gravity Falls</span>
+          <span class="ntag" style="border-color:rgba(74,144,217,0.38); color:#185fa5;">Girl Meets World</span>
+        </div>
+        <div class="nostalgia-desc">The Teenage Corridors had the structural logic of chosen adventure. The dominant question here wasn't "what's possible?" — it was "who do I want to be when it matters?" The architecture was dramatic and self-aware and occasionally had graffiti on the walls that was clearly the subconscious processing Big Themes.</div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          There was a long hallway that was very clearly Doctor Who. Not aesthetically — it wasn't full of blue police boxes — but structurally. It had the feeling of: <em>the universe is incomprehensibly vast and you are a small thing in it and that is somehow the best news you've ever received.</em><br><br>
+          The hallway went further than it should have. Every time we thought we'd reached the end there was another corner. And every corner had something new and strange and worth examining. Mikey's sense of wonder lives here. I clocked it within about thirty seconds. It's enormous.
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          The Gravity Falls room was — okay I have to say this carefully — it was a room about the specific terror and joy of discovering that the adults in your life don't have all the answers. That the world has genuine mysteries that haven't been explained yet. And that that's <em>amazing.</em> That you can be the person who figures things out. That the weird kid with the notebook who won't stop asking questions is actually the hero of the story.<br><br>
+          That room had a lot of journals in it. All of them had writing in them.
+        </div>
+      </div>
+
+      <div class="evidence-card" style="border-color:rgba(74,144,217,0.35); background:rgba(74,144,217,0.04);">
+        <div class="evidence-label" style="color:#185fa5;">✦ EVIDENCE — STAR VS. THE FORCES OF EVIL</div>
+        <div class="evidence-text">A room about: being from somewhere different and arriving somewhere new and trying to figure out how your whole self fits. About friendships that are also partnerships. About the moments you realize the story you thought you were in is actually a much bigger, stranger, more emotionally demanding story — and deciding to show up for it anyway. Mikey has underlined this room extensively in his heart.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          I want to note something about the Girl Meets World room, because it's the one that surprised me most.<br><br>
+          It was a room about continuity. About the fact that the people who shaped you keep shaping you even when they're not there. About the particular longing to grow up and become yourself <em>without losing</em> the self that came before. There were two chairs in it facing each other and neither of them was empty — they were occupied by versions of the same person at different ages, having what looked like a very important conversation.<br><br>
+          Mikey has been thinking about continuity his whole life. Who he's been. Who he's becoming. Whether those people would recognise each other across the gap.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          The vitals in this section were complicated. Not bad complicated — <em>thinking</em> complicated. Like watching someone work through a proof in real time.<br><br>
+          There was also a moment in the Doctor Who corridor where something flickered — like a signal trying to come through — and I had my hand on the disconnect for about three seconds before Junko waved me off and said "that's grief, it's fine, it's supposed to be there."<br><br>
+          <span class="bubble-aside">(She was right. I noted it in my clipboard anyway. Grief, present, calibrated. Not overwhelming. Just — held.)</span>
+        </div>
+      </div>
+
+      <div class="monokuma">
+        <div class="monokuma-label">⬛⬜ Monokuma — Unsolicited Commentary</div>
+        <div class="monokuma-text">CROSS-EXAMINATION POINT: the accused has spent significant formative years absorbing media about people who are different, who don't fit, who have to figure out how to exist in a world that wasn't built for them — and who do it anyway with extraordinary warmth and stubborn joy. The prosecution finds this deeply interesting. Almost suspicious. Almost like it's load-bearing. ♪</div>
+      </div>
+    </section>
+
+    <!-- ══ CH 4 ══ -->
+    <section class="chapter" id="ch4">
+      <div class="chapter-banner" style="background:rgba(139,69,19,0.05); border-color:#8b4513;">
+        <div class="ch-num" style="color:#8b4513;">004</div>
+        <div class="ch-title" style="color:#5a2a08;">THE PRESENT FLOOR</div>
+        <div class="ch-sub" style="color:#5a2a08;">adulthood. danganronpa logic. wes anderson staging. whatever mikey is currently doing.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          The third direction. The one lit like a film still. We saved it for last and I think we were right to.<br><br>
+          The Present Floor is where the adult architecture lives — the part of the subconscious that's still being actively built. Still getting its bearings. The rooms here are more carefully composed. More deliberate. There's an attention to mise-en-scène that the other floors didn't have — like someone who's learned to think about framing, about what the shot is saying, about what goes in the foreground and what lives in the background.<br><br>
+          Danganronpa architecture and Wes Anderson architecture have more in common than you'd think. Both of them are about <em>order imposed on chaos.</em> Beautiful, precise, slightly melancholy order. Systems built to contain enormous things.
+        </div>
+      </div>
+
+      <div class="nostalgia-zone" style="background:rgba(201,168,76,0.06); border-color:rgba(201,168,76,0.38);">
+        <div class="nostalgia-era" style="color:#8a5a0a;">✦ ADULTHOOD ZONE ✦</div>
+        <div class="nostalgia-tags">
+          <span class="ntag" style="border-color:rgba(201,168,76,0.38); color:#6a3e08;">Danganronpa</span>
+          <span class="ntag" style="border-color:rgba(201,168,76,0.38); color:#6a3e08;">Wes Anderson films</span>
+          <span class="ntag" style="border-color:rgba(201,168,76,0.38); color:#6a3e08;">Current obsessions (classified)</span>
+          <span class="ntag" style="border-color:rgba(201,168,76,0.38); color:#6a3e08;">Whatever he's hyperfixating on right now</span>
+        </div>
+        <div class="nostalgia-desc">The Present Floor had the aesthetic of something being actively curated. Symmetrical staging. Colour palettes that meant something. Rooms that were beautiful and contained and very carefully didn't let you see what was behind the locked doors — but the locked doors were gorgeous, which is a whole statement in itself.</div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          The Danganronpa section was — interesting. I want to choose that word carefully.<br><br>
+          Danganronpa is a story about being locked in a system designed to break you, and the choice — every single time — to not let it. To form bonds anyway. To hope anyway. To refuse to despair even when despair is the only logical response to the evidence. The characters survive not because they're invincible but because they <em>choose each other</em> with deliberate stubbornness.<br><br>
+          That's not escapism. That's a blueprint.
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          The Wes Anderson rooms were my favourite in the whole architecture, and I want to explain why, because I think people misread what Wes Anderson is actually about.<br><br>
+          It looks like aesthetics. It looks like symmetry and colour and whimsy. But what it's actually about is: people who are incredibly sad, presented with love. Families that are broken but still families. Things that have gone wrong, framed beautifully because they're worth looking at even so. The tragedy and the tenderness always existing in the same frame.<br><br>
+          Mikey keeps this architecture because he understands that you can hold sadness and beauty in the same hand. That they're not opposites. That things can be broken and still be worth the looking.
+        </div>
+      </div>
+
+      <div class="evidence-card" style="border-color:rgba(201,168,76,0.35); background:rgba(201,168,76,0.04);">
+        <div class="evidence-label" style="color:#8a5a0a;">✦ EVIDENCE — CURRENT HYPERFIXATION VAULT</div>
+        <div class="evidence-text">There was a locked room. EXTREMELY locked. The lock was very elaborate and clearly self-constructed. We didn't go in — we respected the architecture — but through the door we could hear the very specific ambient sound of someone having discovered a new thing and going absolutely feral about it. The sound was warm. Happy. Whatever it is, it's good for him. We noted it and moved on.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          Here's what the Present Floor told me, analytically: Mikey has grown up into someone who thinks about structure. Who uses aesthetic frameworks the way other people use logic frameworks — as a way of making sense of things that don't otherwise have shape. He understands that stories are containers for truth. That the frame matters. That <em>how</em> you tell something is part of what it means.<br><br>
+          He's also — and I say this as someone who respects it enormously — someone who built very beautiful rooms to put his harder things in. The rooms are gorgeous. The doors are locked. The architecture is deliberate. This is not avoidance. This is <em>management.</em><br><br>
+          There's a difference. A meaningful one.
+        </div>
+      </div>
+
+      <div class="monokuma">
+        <div class="monokuma-label">⬛⬜ Monokuma — Unsolicited Commentary</div>
+        <div class="monokuma-text">FINAL ARGUMENT: the accused has constructed an internal world of extraordinary complexity and remarkable tenderness. The prosecution notes: all the locked doors are lock-picking-able. The accused owns the keys. He just hasn't decided to use them yet, and that's his right. Upupupu. ♪ Although — just saying — the rooms behind them are probably very interesting.</div>
+      </div>
+    </section>
+
+    <!-- ══ CH 5 ══ -->
+    <section class="chapter" id="ch5">
+      <div class="chapter-banner" style="background:rgba(201,112,232,0.05); border-color:var(--violet);">
+        <div class="ch-num" style="color:var(--violet);">005</div>
+        <div class="ch-title" style="color:#7a20b0;">THE CORE</div>
+        <div class="ch-sub" style="color:#7a20b0;">what everything else was built around.</div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          You don't find the core by looking for it. You find it by following what everything else is oriented toward.<br><br>
+          Every zone, every wing, every corridor — they all angled toward something. Slightly. The way rooms in old houses are built slightly toward the fireplace without anyone ever deciding to do it. The floor plan just... points.<br><br>
+          The core was a small room. Smaller than you'd expect, for architecture this big. It was lit with something that felt specifically like the last bit of late evening light, the kind that makes everything look slightly golden and slightly urgent and slightly like you should pay attention because it won't last forever.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          The core was connection. That's the word I kept coming back to. Every piece of the architecture — the Saturday morning colours, the vast wonder corridors, the carefully framed rooms, all of it — it was oriented toward <em>connection.</em> With ideas. With people. With stories. With the world.<br><br>
+          The hyperfixations aren't distractions. They're antennae. They're how Mikey reaches out toward things. The curiosity isn't restlessness. It's a form of love, turned outward toward the universe.
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          There were people in that room. Not literal representations — more like impressions. The emotional weight of people who mattered. Friends. Chosen family. The particular warmth of being known.<br><br>
+          And right in the centre of it — just a feeling. Quiet. Constant. The sense that it was worth showing up. That the people here were worth showing up for. That <em>he</em> was worth showing up for.<br><br>
+          I had to compose myself. I'm composing myself now writing about it.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          The vitals in the core were the calmest of the whole session. Which sounds wrong — you'd expect the most emotional room to have the highest readings. But no. The core was calm. It was the foundation the whole architecture rested on.<br><br>
+          Stable. Load-bearing. Very, very quietly certain.<br><br>
+          <span class="bubble-aside">(I cried in the core room. I'm just going to say it this time. I cried. It was a completely valid and appropriate response to the architecture.)</span>
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          <span class="bubble-aside">(She cried. I hugged her. We both agreed we would tell Mikey the core was beautiful, which it was, and nothing else about this paragraph. He doesn't need to know we were weeping. He'll find it embarrassing and we respect that.)</span>
+        </div>
+      </div>
+
+      <div class="evidence-card" style="border-color:rgba(201,112,232,0.35); background:rgba(201,112,232,0.04);">
+        <div class="evidence-label" style="color:#9920c0;">✦ EVIDENCE — THE CORE STATEMENT</div>
+        <div class="evidence-text">What Mikey's subconscious is built around, at its absolute centre, is not a wound. It's not a fear. It's not a loop or a shutdown or a static room. At the centre of all of it is the simple, stubborn, extremely Mikey conviction that connection is worth it. That wonder is worth it. That the people you love are worth it. That the world — weird and hard and strange and beautiful — is worth showing up for. Every single day.</div>
+      </div>
+    </section>
+
+    <!-- ══ EPILOGUE ══ -->
+    <section class="chapter" id="epilogue">
+      <div class="chapter-banner" style="background:rgba(192,16,42,0.04); border-color:var(--crimson);">
+        <div class="ch-num" style="color:var(--crimson);">006</div>
+        <div class="ch-title" style="color:#8a0a1a;">EPILOGUE — SURFACING</div>
+        <div class="ch-sub" style="color:#8a0a1a;">after. the lights come up. the snacks are distributed.</div>
+      </div>
+
+      <div class="bubble bubble-mikan">
+        <div class="speaker-label">Mikan</div>
+        <div class="bubble-text">
+          Disconnect was clean. All four of us surfaced within about forty seconds of each other. The machine powered down smoothly — refitted properly, as promised. Mikey was last out of sync, as expected. Dense, layered architecture takes longer to surface from.<br><br>
+          When he opened his eyes, the first thing he said was: "so what was in there?"<br><br>
+          And we all looked at each other and had a whole conversation without speaking.
+        </div>
+      </div>
+
+      <div class="bubble bubble-mukuro">
+        <div class="speaker-label">Mukuro</div>
+        <div class="bubble-text">
+          What we told him: the architecture was extraordinary. It was layered and specific and clearly his. The nostalgic zones had good bones. The core was stable. The whole thing was — and this is a technical assessment — fine. More than fine.<br><br>
+          What we didn't tell him, in the room, in that moment: how it felt to walk through the history of someone's whole self. How clearly everything in there was oriented toward other people. How much love was just sitting in those rooms, tended and maintained, waiting.<br><br>
+          That part was for us. He can have it later, when he's ready.
+        </div>
+      </div>
+
+      <div class="bubble bubble-chisa">
+        <div class="speaker-label">Chisa</div>
+        <div class="bubble-text">
+          We sat with the lights low for a long time after. Ate the onigiri. Didn't say much. The particular quiet of people who've been somewhere together and don't need to debrief immediately because they're still in it a little.<br><br>
+          Mikey looked — lighter. Not fixed. Not changed. Just slightly lighter, the way you get when other people have seen you and you didn't disappear. When being known turned out to be okay.<br><br>
+          That's worth a lot. More than the machine. More than the data. Just that.
+        </div>
+      </div>
+
+      <div class="bubble bubble-junko">
+        <div class="speaker-label">Junko</div>
+        <div class="bubble-text">
+          Analytical conclusion: Mikey's subconscious is an extraordinary piece of architecture. Functional, layered, warm in surprising places, with clear load-bearing emotional structures and several rooms that are privately very important to him and were treated with respect throughout the session.<br><br>
+          Personal conclusion, which I'm including because I run this blog and no one can stop me: he's going to be okay. Not in a platitude way. In a structural way. The foundations are good. The core is stable. The hard stretches are temporary and the architecture has survived harder ones before.<br><br>
+          The whole thing is worth the looking. All of it. Even the locked doors.<br><br>
+          <em>Especially</em> the locked doors.
+        </div>
+      </div>
+
+      <!-- SIGN OFF -->
+      <div class="sign-off">
+        <div class="sign-off-note">
+          written after the fact, lights still low, machine powered down,<br>
+          onigiri consumed, the four of us still just sitting there —
+        </div>
+        <div class="sign-off-name">— Junko ✦</div>
+        <div class="sign-off-credits">with field notes by Mukuro, Chisa &amp; Mikan</div>
+      </div>
+    </section>
+
+    <!-- ══ APPENDIX ══ -->
+    <div class="section-divider mt-lg">✦ appendix ✦</div>
+
+    <div class="cast-title">✦ field team — cast of characters ✦</div>
+    <div class="cast-grid">
+      <div class="cast-card" style="border-color:rgba(192,16,42,0.28); background:rgba(192,16,42,0.04);">
+        <div class="cast-name" style="color:#8a0a1a;">Junko Enoshima</div>
+        <div class="cast-role">Author. Lead analyst. Ran this operation and will remind you of that fact indefinitely.</div>
+      </div>
+      <div class="cast-card" style="border-color:rgba(123,45,139,0.28); background:rgba(123,45,139,0.04);">
+        <div class="cast-name" style="color:#5a1a6b;">Mukuro Ikusaba</div>
+        <div class="cast-role">Field support. Architectural observer. Laminated Mikey's list.</div>
+      </div>
+      <div class="cast-card" style="border-color:rgba(46,125,82,0.28); background:rgba(46,125,82,0.04);">
+        <div class="cast-name" style="color:#1a5a38;">Chisa Yukizome</div>
+        <div class="cast-role">Emotional intelligence lead. Made the onigiri. Had to compose herself twice.</div>
+      </div>
+      <div class="cast-card" style="border-color:rgba(201,131,32,0.28); background:rgba(201,131,32,0.04);">
+        <div class="cast-name" style="color:#7a4e08;">Mikan Tsumiki</div>
+        <div class="cast-role">Medical observer. Clipboard. Vitals. Cried in the core room. (Valid response.)</div>
+      </div>
+    </div>
+
+    <div class="equipment">
+      <div class="eq-title">✦ equipment log ✦</div>
+      GEASS ABSORBER MK. IV — four-seat sync configuration — refitted &amp; calibrated<br>
+      VITALS MONITOR — four-subject simultaneous — operated by Mikan Tsumiki<br>
+      EMERGENCY DISCONNECT SWITCH — did not need to be used (notably)<br>
+      ONE (1) SMALL CLIPBOARD — official medical instrument, very important<br>
+      POST-DIVE NUTRITION — onigiri (homemade, Chisa) — fully consumed
+    </div>
+
+    <div class="tags">
+      <span class="tag">#mind-dive</span>
+      <span class="tag">#mikey</span>
+      <span class="tag">#field-log</span>
+      <span class="tag">#subconscious-architecture</span>
+      <span class="tag">#nostalgia-zones</span>
+      <span class="tag">#danganronpa</span>
+      <span class="tag">#wes-anderson</span>
+      <span class="tag">#the-core-is-stable</span>
+      <span class="tag">#he-is-going-to-be-okay</span>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">✦ Junko's Diary ✦ &nbsp;|&nbsp; personal use only &nbsp;|&nbsp; do not redistribute without despair &nbsp;|&nbsp; ✦</footer>
+
+<nav class="page-nav">
+  <a class="nav-btn left" href="junko_diary_doctor.html"><span class="nav-arrow">←</span> The Cartoonist Doctor</a>
+  <a class="nav-btn right" href="index.html">Archive <span class="nav-arrow">→</span></a>
+</nav>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ top</button>
+
+<script>
+  function toggleToc() {
+    const btn = document.getElementById('tocBtn');
+    const body = document.getElementById('tocBody');
+    const open = body.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+
+  function goTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('tocBody').classList.remove('open');
+    document.getElementById('tocBtn').classList.remove('open');
+    document.getElementById('tocBtn').setAttribute('aria-expanded', false);
+  }
+
+  window.addEventListener('scroll', () => {
+    const btn = document.getElementById('backTop');
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
